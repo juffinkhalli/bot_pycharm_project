@@ -7,14 +7,13 @@ from telegram.ext import Updater, CommandHandler
 from boto.s3.connection import S3Connection
 import os
 
-s3 = S3Connection(os.environ['token'], os.environ['url_sbp_dict'])
-print(s3)
+token = S3Connection(os.environ['token'])
+url_sbp_dict = S3Connection(os.environ['url_sbp_dict'])
 
 
 def get_sbp_dict():
-    url = requests.get(config.url_sbp_dict)
+    url = requests.get(url_sbp_dict)
     data = url.json()
-    print(s3)
     return data['payload']
 
 
@@ -36,7 +35,7 @@ def hello(update, context):
     update.message.reply_text(chek_sbp())
 
 
-updater = Updater(config.token, use_context=True)
+updater = Updater(token, use_context=True)
 
 updater.dispatcher.add_handler(CommandHandler('hello', hello))
 
