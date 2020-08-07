@@ -4,11 +4,17 @@ import config
 import requests
 import json
 from telegram.ext import Updater, CommandHandler
+from boto.s3.connection import S3Connection
+import os
+
+s3 = S3Connection(os.environ['token'], os.environ['url_sbp_dict'])
+print(s3)
 
 
 def get_sbp_dict():
     url = requests.get(config.url_sbp_dict)
     data = url.json()
+    print(s3)
     return data['payload']
 
 
@@ -23,11 +29,6 @@ def chek_sbp():
 
 
 def sbp_members_list():
-    data = get_sbp_dict()
-    # text = ''
-    # for i in data:
-    #     text += str(i['brand']['name']) + ' <-- ОК' + '\n'
-    # text.encode('cp1251')
     return 'ОК!!!!1'
 
 
