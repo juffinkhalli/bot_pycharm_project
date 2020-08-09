@@ -35,7 +35,7 @@ def get_sbp_dict():
     return data['payload']
 
 
-def chek_sbp():
+def brands_check():
     sbp_dict = get_sbp_dict()
     answer = []
     for i in sbp_dict:
@@ -47,24 +47,24 @@ def chek_sbp():
         return 'OK'
 
 
-def periodic_sbc_chek():
+def periodic_brands_check():
     print('ПРОВЕРКА')
-    if chek_sbp() == 'OK':
-        threading.Timer(60, periodic_sbc_chek).start()
+    if brands_check() == 'OK':
+        threading.Timer(60, periodic_brands_check).start()
     else:
-        bot.send_message(my_chat_id, text=chek_sbp())
-        threading.Timer(3600, periodic_sbc_chek).start()
+        bot.send_message(my_chat_id, text=brands_check())
+        threading.Timer(3600, periodic_brands_check).start()
 
 
-def hello(update, context):
-    update.message.reply_text(chek_sbp())
+def check_brands(update, context):
+    update.message.reply_text(brands_check())
 
 
 set_config()
 bot = telegram.Bot(token)
 bot.send_message(my_chat_id, text='START')
-periodic_sbc_chek()
+periodic_brands_check()
 updater = Updater(token, use_context=True)
-updater.dispatcher.add_handler(CommandHandler('chek_sbp', hello))
+updater.dispatcher.add_handler(CommandHandler('check_brands', check_brands))
 updater.start_polling()
 updater.idle()
