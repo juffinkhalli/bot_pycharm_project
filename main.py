@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import config
 import requests
 import json
@@ -39,12 +37,13 @@ def brands_check():
     sbp_dict = get_sbp_dict()
     answer = []
     for i in sbp_dict:
-        if 'brand' not in i:
-            answer.append(i['name'])
+        if 'logo' not in i['brand']:
+            err_bank = i['name']
+            answer.append(err_bank)
     if len(answer) > 0:
         return answer
     else:
-        return 'OK'
+        return 'У всех банков есть иконка.'
 
 
 def periodic_brands_check():
@@ -52,12 +51,12 @@ def periodic_brands_check():
     if brands_check() == 'OK':
         threading.Timer(60, periodic_brands_check).start()
     else:
-        bot.send_message(my_chat_id, text=brands_check())
+        bot.send_message(my_chat_id, text=str(brands_check()))
         threading.Timer(3600, periodic_brands_check).start()
 
 
 def check_brands(update, context):
-    update.message.reply_text(brands_check())
+    update.message.reply_text(str(brands_check()))
 
 
 set_config()
