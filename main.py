@@ -43,7 +43,7 @@ def brands_check():
     if len(answer) > 0:
         return answer
     else:
-        return 'У всех банков есть иконка.'
+        return 'OK'
 
 
 def periodic_brands_check():
